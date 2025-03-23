@@ -1,4 +1,5 @@
 let OPEN_WINDOWS = []
+let MINIMIZED = []
 let relation = [
     {"name": "paint", "html": `<h1>paint</h1>`},
     {"name": "internet-explorer", "html": `<h1> internet exp </h1>`}
@@ -26,12 +27,15 @@ function createWindow(window) {
             DESKTOP.innerHTML = DESKTOP.innerHTML + `
             <div id = "${window}" class = "Window">
                 <div class = "Header">
-                    <p>${window}</p>
-                    <div class = "Window-Buttons>
+                    <div class = "Title Container">
+                        <img src = "/img/${window}.png">
+                        <p>${window}</p>
+                    </div>
+                    <div class = "Window-Buttons">
                         <button style = "display:none; color: blue"></button>
-                        <button id = "minimize" class = "Window-Btns ${window}">=</button>
-                        <button id = "close" class = "Window-Btns ${window}">X</button>
-                        <button id = "full" class = "Window-Btns ${window}">A</button>
+                        <button id = "minimize" class = "Window-Btns ${window}" style = "background: url('/img/minimize.jpg'); background-size: cover;"></button>
+                        <button id = "full" class = "Window-Btns ${window}" style = "background: url('/img/full.jpg'); background-size: cover;"></button>
+                        <button id = "close" class = "Window-Btns ${window}" style = "background: url('/img/close.jpg'); background-size: cover;"></button>
                     </div>
                 </div>
                 <div class = "Border ${window}" id = 'border-1'></div>
@@ -41,14 +45,17 @@ function createWindow(window) {
                 <div class = 'Content'>${relation[i].html}</div>
             </div>`
             TASKBAR.innerHTML = TASKBAR.innerHTML + `
-            <div id = "${window}-taskbar"} class = "App"><p>${window}</p>`
+            <div id = "${window}-taskbar" class = "App Title">
+                <img src = "/img/${window}.png">
+                <p>${window}</p>
+            </div>
+            `
         }
     }
 
     moveWindow();
     resizeWindow();
     interactButtons();
-
 }
 
 function moveWindow() {
@@ -137,10 +144,47 @@ function interactButtons() {
     const btns = document.querySelectorAll(".Window-Btns");
     btns.forEach((btn) => {
         btn.addEventListener("click", () => {
-            window = document.getElementById(btn.className.split("Window-Btns ").join(""))
-            console.log(`You just clicked ${btn.id} from the ${window} window`);
+            let windowName = btn.className.split("Window-Btns ").join("")
+            openWindow = document.getElementById(windowName)
+            if (btn.id == "full") {
+                openWindow.style.height = "90vh"
+                openWindow.style.width = "100%"
+            }
+            else if (btn.id == "minimize") {
+                openWindow.style.display = "none";
+                MINIMIZED.push(openWindow)
+                openMinimizedWindow(openWindow)
+            }
+            else {
+                closeWindow(openWindow)
+            }
         })
     })
+
+    function openMinimizedWindow(window) {
+        const taskbar = document.querySelectorAll(".App")
+        taskbar.forEach((app) => {
+            app.addEventListener("click", () => {
+                let appReference = app.id.split("-taskbar").join("")
+                if (appReference == window.id) {
+                    window.style.display = "block";
+                }
+            })
+        })
+    }
+
+    function closeWindow(window) {
+        let menu = document.getElementsByClassName(`Menu-Btns Open ${window.id}`)
+        let taskbar = document.getElementById(`${window.id}-taskbar`)
+
+        menu[0].className = menu[0].className.replace('Open', 'Closed')
+        taskbar.remove()
+        window.remove()
+
+    }
 }
 
-main()
+    
+
+
+main();
