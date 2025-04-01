@@ -26,7 +26,7 @@ function createWindow(window) {
         if (relation[i].name == window) {
             DESKTOP.innerHTML = DESKTOP.innerHTML + `
             <div id = "${window}" class = "Window">
-                <div class = "Header">
+                <div class = "Header ${window}">
                     <div class = "Title Container">
                         <img src = "/img/${window}.png">
                         <p>${window}</p>
@@ -59,24 +59,47 @@ function createWindow(window) {
 }
 
 function moveWindow() {
+
     const body = document.querySelector("body");
-    const header = document.querySelectorAll(".Header");
-    const window = document.querySelectorAll(".Window");
-    for (let i = 0 ; i < header.length; i++) { 
-        header[i].addEventListener("mousedown", (e) => {
-            
+    let width_body = window.getComputedStyle(body).getPropertyValue('width');
+    let height_body = window.getComputedStyle(body).getPropertyValue('height');
+    const headers = document.querySelectorAll(".Header");
+    const windows = document.querySelectorAll(".Window");
+
+    headers.forEach((header) => {
+        header.addEventListener('mousedown', (e) => {
+            let w = document.getElementById(header.className.split("Header ").join(""))
+                
             let X = e.clientX;
             let Y = e.clientY;
 
-            let left = window[i].offsetLeft;
-            let top = window[i].offsetTop;
+            let left = w.offsetLeft;
+            let top = w.offsetTop;
+            let width = window.getComputedStyle(w).getPropertyValue('width');
+            let height = window.getComputedStyle(w).getPropertyValue('height');
+            
+            let offsetWidth = parseInt(width_body) - (parseInt(left) + parseInt(width));
+            let offsetHeight = parseInt(height_body) - (parseInt(top) + parseInt(height));
+            
 
             const Move = (e) => {
+               
                 let newX = left + e.clientX - X;
                 let newY = top + e.clientY - Y;
-
-                window[i].style.left = newX + "px";
-                window[i].style.top = newY + "px";
+                
+                if (offsetWidth < 1 || offsetHeight < 20) {
+                    w.style.left = '0px';
+                    w.style.top = '0px'
+                    offsetWidth = 0;
+                    offsetHeight = 0;
+                }
+                else {
+                    console.log(`Posição left: ${left} px, Posição top: ${top}, window: ${w.id}`)
+                    w.style.left = newX + "px";
+                    w.style.top = newY + "px";
+                }
+                
+             
 
             }
 
@@ -87,8 +110,10 @@ function moveWindow() {
 
             document.addEventListener('mousemove', Move);
             document.addEventListener('mouseup', Stop);
+
         })
-    }
+    })
+
 }
 
 function resizeWindow() {
