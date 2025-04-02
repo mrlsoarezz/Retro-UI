@@ -65,7 +65,8 @@ function moveWindow() {
     let height_body = window.getComputedStyle(body).getPropertyValue('height');
     const headers = document.querySelectorAll(".Header");
     const windows = document.querySelectorAll(".Window");
-
+    let offsetHeight
+    let offsetWidth
     headers.forEach((header) => {
         header.addEventListener('mousedown', (e) => {
             let w = document.getElementById(header.className.split("Header ").join(""))
@@ -77,36 +78,33 @@ function moveWindow() {
             let top = w.offsetTop;
             let width = window.getComputedStyle(w).getPropertyValue('width');
             let height = window.getComputedStyle(w).getPropertyValue('height');
-            
-            let offsetWidth = parseInt(width_body) - (parseInt(left) + parseInt(width));
-            let offsetHeight = parseInt(height_body) - (parseInt(top) + parseInt(height));
+            console.log(left, top)
+            if (left == 0 && top == 0) {
+                offsetWidth = parseInt(width_body) - (parseInt(left) + parseInt(width));
+                offsetHeight = parseInt(height_body) - (parseInt(top) + parseInt(height));
+            }
             
 
             const Move = (e) => {
                
                 let newX = left + e.clientX - X;
                 let newY = top + e.clientY - Y;
-                
-                if (offsetWidth < 1 || offsetHeight < 20) {
-                    w.style.left = '0px';
-                    w.style.top = '0px'
-                    offsetWidth = 0;
-                    offsetHeight = 0;
-                }
-                else {
-                    console.log(`Posição left: ${left} px, Posição top: ${top}, window: ${w.id}`)
+
+                console.log(newX, offsetWidth, newY, offsetHeight)
+                if (((newX < offsetWidth && newX >= 0) && ((newY < offsetHeight - 35) && newY >= 0))) {
+                    console.log(newX)
                     w.style.left = newX + "px";
                     w.style.top = newY + "px";
                 }
                 
              
-
             }
 
             const Stop = (e) => {
                 document.removeEventListener("mousemove", Move);
                 document.removeEventListener('mouseup', Stop);
             }
+            console.log("This is before the move start, left and top value", left, top);
 
             document.addEventListener('mousemove', Move);
             document.addEventListener('mouseup', Stop);
