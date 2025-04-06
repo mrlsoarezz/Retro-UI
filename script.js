@@ -2,12 +2,22 @@ let OPEN_WINDOWS = []
 let MINIMIZED = []
 let relation = [
     {"name": "paint", "html": `<h1>paint</h1>`},
-    {"name": "internet-explorer", "html": `<h1> internet exp </h1>`}
+    {"name": "internet-explorer", "html": `<h1> internet exp </h1>`},
+    {"name": "email", "html": `<h1>email</h1>`},
+    {"name": "notepad", "html": `<h1>notepad</h1>`},
+    {"name": "media-player", "html": `<h1>media player</h1>`},
 ]
 
 function main() {
 
     const btns = document.querySelectorAll(".Menu-Btns");
+    const menuBTN = document.getElementById("menu-btn");
+    const menu = document.getElementById("menu");
+
+    menuBTN.addEventListener("click", () => {
+        menu.classList.toggle("Open");
+    })
+
     btns.forEach((btn) => {
         btn.addEventListener("click", (e) => {
             if (btn.className.includes('Closed')) {
@@ -64,9 +74,10 @@ function moveWindow() {
     let width_body = window.getComputedStyle(body).getPropertyValue('width');
     let height_body = window.getComputedStyle(body).getPropertyValue('height');
     const headers = document.querySelectorAll(".Header");
-    const windows = document.querySelectorAll(".Window");
+    
     let offsetHeight
     let offsetWidth
+
     headers.forEach((header) => {
         header.addEventListener('mousedown', (e) => {
             let w = document.getElementById(header.className.split("Header ").join(""))
@@ -76,6 +87,7 @@ function moveWindow() {
 
             let left = w.offsetLeft;
             let top = w.offsetTop;
+
             let width = window.getComputedStyle(w).getPropertyValue('width');
             let height = window.getComputedStyle(w).getPropertyValue('height');
             console.log(left, top)

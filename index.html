@@ -27,7 +27,6 @@
             position: relative;
             display: flex;
             font-family: 'Tahoma';
-
         }
 
         .Window {
@@ -152,13 +151,13 @@
             height: 5%;
             position: absolute;
             bottom: 0px;
-            padding: 1.5px;
             background: var(--main-blue);
             box-shadow: 2px 5px 10px inset rgb(91, 170, 255);
         }
 
         .Taskbar .App {
             color: white;
+            font-family: "Tahoma";
             width: 12%;
             border-radius: 5px;
             background-color: rgb(54, 111, 255);
@@ -175,16 +174,270 @@
             width: 15px;
             height: 15px;
         }
+
+        .Taskbar > button {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background-color: green;
+            box-shadow: 0px 3px 15px rgb(16, 188, 16) inset;
+            border: none;
+            border-radius: 0px 25px 25px 0px;
+            padding: 5px;
+            width: 7%;
+        }
+
+        .Taskbar > button > img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .Taskbar > button > p {
+            color: white;
+            text-shadow: 2px 2px black;
+        }
+
+        .Taskbar > button:hover {
+            background: rgb(0, 135, 0);
+            box-shadow: 0px 0px 0px 0px;
+            cursor: pointer;
+        }
+
+        .Menu {
+            display: none;
+        }
+
+        .Menu.Open {
+            display: grid;
+            grid-template-rows: 15% 70% 10%;
+            position: absolute;
+            font-family: 'Tahoma';
+            bottom: 0px;
+            width: 28.5%;
+            height: 75%;
+            border: 2px solid rgb(0, 85, 255);
+            border-radius:  0px 25px;
+        }
+
+        .Menu.Open > section:nth-child(1) {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px;
+            background: var(--main-blue);
+            border-radius: 0px 25px 0px 0px;
+        }
+
+        .Menu.Open > section:nth-child(1) > img {
+            width: 60px;
+            height: 60px;
+            background-color: lightblue;
+        }
+
+        .Menu.Open > section:nth-child(1) > p {
+            font-family: 'Tahoma';
+            text-shadow: 1px 1px black;
+            color: white;
+        }
+
+        .Menu.Open > section:nth-child(2) {
+            display: flex;
+        }
+
+        .Menu.Open > section:nth-child(2) > .Left {
+            position: relative;
+            height: 100%;   
+            width: 60%;
+            background-color: white;
+            border-right: 1px solid grey;
+        }
+
+        .Menu.Open > section:nth-child(2) > .Left > button {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 13%;
+            gap: 2px;
+            font-weight: 600;
+            background: none;
+            border: none;
+        }
+
+        .Menu.Open > section:nth-child(2) > .Left > button:hover {
+            background: rgb(226, 226, 226);
+            cursor: pointer;
+        }
+
+
+        .Menu.Open > section:nth-child(2) > .Left > button > img {
+            width: 25px;
+        }
+
+        .Menu.Open > section:nth-child(2) > .Right {
+            display: grid;
+            grid-template-rows: repeat(auto-fill, 10%);
+            height: 100%;   
+            width: 60%;
+            background-color: rgb(225, 241, 255);
+        }
+        
+        .Menu.Open > section:nth-child(2) > .Right > button {
+            display: flex;
+            align-items: center;
+            gap: 3.5px;
+            background: none;
+            border: none;
+        }
+
+        .Menu.Open > section:nth-child(2) > .Right > button:hover {
+            cursor: pointer;
+            background-color: rgba(200, 217, 233, 0.764);
+        }
+        
+        .Menu.Open > section:nth-child(2) > .Right > button > img {
+            width: 20px;
+        }
+
+        .Menu.Open > section:nth-child(3) {
+            background: var(--main-blue);
+            position: relative;
+            color: white;
+        }
+
+        .Menu.Open > section:nth-child(3) > .Turn.Container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: absolute;
+            right: 0px;
+            height: 80%;
+            width: 65%;
+        }
+
+        .Menu.Open > section:nth-child(3) > .Turn.Container > div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 2px;
+            font-size: 15px;
+            width: auto;
+        }
+
+     
+
+        .Menu.Open > section:nth-child(3) > .Turn.Container > div > img {
+            width: 20px;
+            height: 20px;
+        }
+        
+
+        
         
         </style>
 </head>
 <body>
     <div class = 'Desktop'></div>
-    <div class = 'Taskbar'>
-        <button>Menu</button>
+    <div id = "menu" class = "Menu">
+        <section>
+            <img></img>
+            <p> Name </p>
+        </section>
+        <section>
+            <section class = "Left">
+                <button id = "internet-explorer" class = "Menu-Btns Closed internet-explorer">
+                    <img src = "img/internet-explorer.png"></img>
+                    <div style = "display: flex; flex-direction: column; align-items: start;">
+                        <p>Internet</p>
+                        <p style = "font-weight: 100; opacity: 0.6">Internet Explorer</p>
+                    </div>
+                </button>
+                <button id = "email" class = "Menu-Btns Closed email">
+                    <img src = "img/email.png"></img>
+                    <div style = "display: flex; flex-direction: column; align-items: start;">
+                        <p>Email</p>
+                        <p style = "font-weight: 100; opacity: 0.6">Email</p>
+                    </div>
+                </button>
+                <button id = "paint" class = "Menu-Btns Closed paint">
+                    <img src = "img/paint.png"></img>
+                    <p> Paint </p>
+                </button>
+                <button id = "notepad" class = "Menu-Btns Closed notepad">
+                    <img src = "img/notepad.png"></img>
+                    <p> Notepad </p>
+                </button>
+                <button id = "media-player" class = "Menu-Btns Closed media-player">
+                    <img src = "img/media-player.png"></img>
+                    <p> Media Player </p>
+                </button>
+                <button id = "all-programs" style = "display: flex; justify-content: center; position: absolute; bottom: 5px;">
+                    <img src = "img/all-programs.ico">
+                    <p>All programs</p>
+                </button>
+            </section>
+            <section class = "Right">
+                <button>
+                    <img src = "img/my-docs.ico"></img>
+                    <p>My Documents</p>
+                </button>
+                <button>
+                    <img src = "img/recent-docs.ico"></img>
+                    <p>Recent Documents</p>
+                </button>
+                <button>
+                    <img src = "img/my-pics.ico"></img>
+                    <p>My Pictures</p>
+                </button>
+                <button>
+                    <img src = "img/my-music.ico"></img>
+                    <p>My Music</p>
+                </button>
+                <button style = "border-bottom: 1px solid grey;">
+                    <img src = "img/my-computer.ico"></img>
+                    <p>My Computer</p>
+                </button>
+                <button>
+                    <img src = "img/control.ico"></img>
+                    <p>Control Panel</p>
+                </button>
+                <button style = "border-bottom: 1px solid grey">
+                    <img src = "img/printer.ico"></img>
+                    <p>Printers and Taxers</p>
+                </button>
+                <button>
+                    <img src = "img/help.ico"></img>
+                    <p>Help and Support</p>
+                </button>
+                <button>
+                    <img src = "img/search.ico"></img>
+                    <p>Search</p>
+                </button>
+                <button>
+                    <img src = "img/run.ico"></img>
+                    <p>Run</p>
+                </button>
+            </section>
+        </section>
+        <section>
+            <div class = "Turn Container">
+                <div>
+                    <img src = "img/log-off.ico">
+                    <p> Log off</p>
+                </div>
+                <div>
+                    <img src = "img/turn-off.ico">
+                    <p> Turn off  </p>
+                </div>
+            </div>
+        </section>
     </div>
-    <button id = "internet-explorer" class = "Menu-Btns Closed internet-explorer">internet explorer</button>
-    <button id = "paint" class = "Menu-Btns Closed paint">paint</button>
+    <div class = 'Taskbar'>
+        <button id = "menu-btn">
+            <img src = "img/logo.png">
+            <p>Menu</p>
+        </button>
+    </div>
+    
+    
     <script src = "script.js"></script>
 </body>
 </html>
