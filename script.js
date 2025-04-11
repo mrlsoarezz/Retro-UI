@@ -90,7 +90,7 @@ function moveWindow() {
 
             let width = window.getComputedStyle(w).getPropertyValue('width');
             let height = window.getComputedStyle(w).getPropertyValue('height');
-            console.log(left, top)
+
             if (left == 0 && top == 0) {
                 offsetWidth = parseInt(width_body) - (parseInt(left) + parseInt(width));
                 offsetHeight = parseInt(height_body) - (parseInt(top) + parseInt(height));
@@ -102,9 +102,7 @@ function moveWindow() {
                 let newX = left + e.clientX - X;
                 let newY = top + e.clientY - Y;
 
-                console.log(newX, offsetWidth, newY, offsetHeight)
                 if (((newX < offsetWidth && newX >= 0) && ((newY < offsetHeight - 35) && newY >= 0))) {
-                    console.log(newX)
                     w.style.left = newX + "px";
                     w.style.top = newY + "px";
                 }
@@ -127,41 +125,76 @@ function moveWindow() {
 }
 
 function resizeWindow() {
+    const body = document.querySelector("body");
+
     const border = document.querySelectorAll(".Border");
+
     border.forEach((b) => {
         b.addEventListener("mousedown", (e) => {
-            const window = document.getElementById(b.className.split("Border ").join(""))
+
+            const WindowOBJ = document.getElementById(b.className.split("Border ").join(""));
+
+            let width_body = parseInt(window.getComputedStyle(body).getPropertyValue('width'));
+            let height_body = parseInt(window.getComputedStyle(body).getPropertyValue('height'));  
+          
+        
             let X = e.clientX;
             let Y = e.clientY;
 
-            let height = window.offsetHeight;
-            let width = window.offsetWidth;
-            let left = window.offsetLeft;
-            let top = window.offsetTop;
-
+            let height = WindowOBJ.offsetHeight;
+            let width = WindowOBJ.offsetWidth;
+            let left = WindowOBJ.offsetLeft;
+            let top = WindowOBJ.offsetTop;
+        
             const Resize = (e) => {
 
-                let newX = left + e.clientX - X;
-                let newY = top + e.clientY - Y;
+                let newX = left + e.clientX - X + 'px';
+                let newY = top + e.clientY - Y + 'px';
 
-                if (b.id == "border-1") {
-                    window.style.top = newY + 'px';
-                    window.style.height = (height - (e.clientY - Y)) + 'px';
+                let newHeight, newWidth
+
+                switch(b.id) {
+                    case "border-1": 
+                        newHeight = (height - (e.clientY - Y)) + 'px';
+                        if (checkProportionValidity(parseInt(newHeight), height_body)) {
+                            WindowOBJ.style.top = newY;
+                            WindowOBJ.style.height = newHeight;
+                        }
+                        break
+                        case "border-2": 
+                        newWidth = (width - (e.clientX - X)) + 'px'
+                        if (checkProportionValidity(parseInt(newWidth), width_body)) {
+                            WindowOBJ.style.left = newX;
+                            WindowOBJ.style.width = newWidth;
+                        }
+                        break
+                    case "border-3":
+                        newWidth = (width - (X - e.clientX)) + 'px';
+                        if (checkProportionValidity(parseInt(newWidth), width_body)) {
+                            WindowOBJ.style.width = newWidth;
+                        }
+                        break
+                    case "border-4":
+                        newHeight = (height - (Y- e.clientY))+ 'px';
+                        if (checkProportionValidity(parseInt(newHeight), height_body)) {
+                            WindowOBJ.style.height = newHeight;
+                        }
+                        break
                 }
 
-                else if (b.id == "border-2") {
-                    window.style.left = newX + 'px';
-                    window.style.width = (width - (e.clientX - X)) + 'px'
+                function checkProportionValidity(proportion, background) {
+                  
+                    if ((proportion < 50) || (proportion > (background * 0.93))) {
+                        return false 
+                    }
+                    else {
+                        return true
+                    }
                 }
 
-                else if (b.id == "border-3") {
-                    window.style.width = (width - (X - e.clientX)) + 'px'
-                }
 
-                else if (b.id == "border-4") {
-                    window.style.height = (height - (Y- e.clientY))+ 'px';
-                }
-             
+
+                
             }
 
             const Stop = (e) => {
